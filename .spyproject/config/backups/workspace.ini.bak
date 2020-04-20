@@ -6,5 +6,5 @@ save_non_project_files = False
 
 [main]
 version = 0.2.0
-recent_files = ['..\\..\\.spyder-py3\\temp.py', 'topic_modeling\\settings.py', 'topic_modeling\\spiders\\QuodesSpider.py', 'topic_modeling\\pipelines.py', 'topic_modeling\\middlewares.py', 'topic_modeling\\items.py', 'first_cleanup.py', 'press41.json']
+recent_files = ['..\\..\\.spyder-py3\\temp.py', 'topic_modeling\\settings.py', 'topic_modeling\\spiders\\QuodesSpider.py', 'topic_modeling\\pipelines.py', 'topic_modeling\\middlewares.py', 'topic_modeling\\items.py', 'first_cleanup.py', 'press42Combined.json']
 
