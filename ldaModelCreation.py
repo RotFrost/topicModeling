@@ -25,6 +25,19 @@ dfBigramLemma = df['trigramLemma']
  
 bowCorpus, dictionary = dph.getCorpus(dfBigramLemma)
 
+
+numberTopicsList = [5,10,15,20]
+resultDict = {}
+
+for numberTopic in numberTopicsList:
+    ldaModel = gensim.models.LdaModel(bowCorpus, num_topics=numberTopics, random_state=100, id2word=dictionary, passes=1, iterations=100, per_word_topics=True)
+    cm = CoherenceModel(model=ldaModel, corpus=bowCorpus, coherence='u_mass')
+    coherence = cm.get_coherence()
+    resultDict[numberTopic] = coherence
+    
+print(resultDict)
+    
+    
 if True:
     ldaModel = gensim.models.LdaModel(bowCorpus, num_topics=numberTopics, random_state=100, id2word=dictionary, passes=1, iterations=100, per_word_topics=True)
     dph.saveModel(ldaModel, 'ldaModelTrigram')
@@ -42,7 +55,7 @@ cm = CoherenceModel(model=ldaModel, corpus=bowCorpus, coherence='u_mass')
 coherence = cm.get_coherence()  # get coherence value
 
 
-#print('\nCoherence Score:', coherence)
+print('\nCoherence Score:', coherence)
 
 for idx, topic in ldaModel.print_topics(-1):
    print('Topic: {} \nWords: {}'.format(idx, topic))
