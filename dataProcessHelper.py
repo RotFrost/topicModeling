@@ -7,6 +7,7 @@ Created on Fri May  8 02:03:30 2020
 import string
 import os
 import pandas as pd
+import numpy as np
 
 #from nltk.tokenize import sent_tokenize, word_tokenize, wordpunct_tokenize
 #from nltk.corpus import stopwords
@@ -87,3 +88,50 @@ def getCorpus(data):
     dictionary.compactify()
     bowCorpus = [dictionary.doc2bow(doc) for doc in data]
     return bowCorpus, dictionary
+
+def getNmfLdaTopic(model, vectorizer, numberTopics, nTopWords):
+    term = vectorizer.get_feature_names()
+    wordDict = {};
+    for i in range(numberTopics):
+        wordsIds = model.components_[i].argsort()[:-nTopWords - 1:-1]
+        words = [term[key] for key in wordsIds]
+        wordDict['Topic # ' + '{:02d}'.format(i+1)] = words;
+    return pd.DataFrame(wordDict);
+
+def getTopicsTermsWeights(weights, featureNames):
+    featureNames = np.array(featureNames)
+    sortedIndices = np.array([list(row[::-1]) for row in np.argsort(np.abs(weights))])
+    sortedWeights = np.array([list(wt[index]) for wt, index in zip(weights, sortedIndices)])
+    sortedTerms = np.array([list(featureNames[row]) for row in sortedIndices])
+
+    topics = [np.vstack((terms.T, termWeights.T)).T for terms, termWeights in zip(sortedTerms, sortedWeights)]
+
+    return topics
+
+def printTopicsUdf(topics, numberTopics=1, weightThreshold=0.0001, displayWeights=False, numTerms=None):
+    for index in range(numberTopics):
+        topic = topics[index]
+        topic = [(term, float(wt))
+                 for term, wt in topic]
+        topic = [(word, round(wt,2))
+                 for word, wt in topic
+                 if abs(wt) >= weightThreshold]
+        if displayWeights:
+            print('Topic #'+str(index+1)+' with weights')
+            print(topic[:numTerms]) if numTerms else topic
+        else:
+            print('Topic #'+str(index+1)+' without weights')
+            tw = [term for term, wt in topic]
+            print(tw[:numTerms]) if numTerms else tw
+            
+def getTopicsUdf(topics, numberTopics=1, weightThreshold=0.0001, numTerms=None):
+    topicTerms = []
+    for index in range(numberTopics):
+        topic = topics[index]
+        topic = [(term, float(wt))
+                 for term, wt in topic]
+        topic = [(word, round(wt,2))
+                 for word, wt in topic
+                 if abs(wt) >= weightThreshold]
+        topic_terms.append(topic[:numTerms] if numTerms else topic)
+    return topicTerms
