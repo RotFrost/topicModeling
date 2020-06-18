@@ -126,7 +126,6 @@ if __name__ == "__main__":
     resultRecordDict = dph.getResultRecordDict()
     resultRecordDict = dph.appendResultRecordDict([settingsDict, corpusDict, pathDict, resultDict, extraDict], resultRecordDict)
     
-5
     if False:
         dph.saveResultRecordDict(resultRecordDict)
         dph.saveModelDirect(hdpModel, modelPath)

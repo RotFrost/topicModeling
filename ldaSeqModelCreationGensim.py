@@ -42,7 +42,7 @@ if False:
     dph.saveModel(Model, 'ldaseqModel' + columnName + str(numberTopics))
 else:
     #ldaseqModelTrigram und ldaseqModelTrigram2
-    Model = dph.loadModel('ldaseqModel' + columName + str(numberTopics))
+    Model = dph.loadModel('ldaseqModel' + columnName + str(numberTopics))
     
 
 idx = 0
