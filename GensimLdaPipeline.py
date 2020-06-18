@@ -59,9 +59,11 @@ if __name__ == "__main__":
     if True:
         df = dph.toLower(df, settingsDict['gensimPreProcess'])
         extraDict['toLower'] = True
+        
+    ##  Erstellt das Bag of Words Model und ein Dictionary. // Hier wird das für auch entfernt.
     bowCorpus, dictionary = dph.getCorpus(df[settingsDict['gensimPreProcess']], corpusDict['noBelow'], corpusDict['noAbove'], corpusDict['keepN'])
 
-    ##  Erstellt das Bag of Words Model und ein Dictionary. // Hier wird das für auch entfernt.
+    ##  Anwendung des tf-idfs.
     if True:
         tfidf = gensim.models.TfidfModel(bowCorpus)
         bowCorpus = tfidf[bowCorpus]
